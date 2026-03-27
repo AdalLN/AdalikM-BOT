@@ -6,7 +6,7 @@ STORAGE_DIR = os.environ.get("STORAGE_DIR", "storage")
 EXPIRY_HOURS = int(os.environ.get("EXPIRY_HOURS", "24"))
 MAX_BYTES = int(os.environ.get("MAX_BYTES", 2_000_000))
 MIN_INTERVAL = float(os.environ.get("MIN_INTERVAL", 1.0))
-AUTO_PURGE_INTERVAL = int(os.environ.get("AUTO_PURGE_INTERVAL", 3600))
+AUTO_PURGE_INTERVAL = int(os.environ.get("AUTO_PURGE_INTERVAL", 604800))
 
 AUTH_FORWARDERS = {
     int(x)
