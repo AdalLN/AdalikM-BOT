@@ -274,6 +274,25 @@ async def get_cc_by_name(name: str):
         return await cur.fetchall()
 
 
+async def get_cc_by_type(type: str):
+    """Busca coincidencias por tipo de tarjeta."""
+
+
+    search = type.strip().split()[0]  # toma la primera palabra del usuario
+
+    async with aiosqlite.connect(DB_PATH) as db:
+        cur = await db.execute(
+            """
+            SELECT bin, name, type, quantity, active
+            FROM ccs
+            WHERE UPPER(type) LIKE UPPER(?)
+            ORDER BY active DESC, name ASC
+            """,
+            (f"%{search}%",),
+        )
+        return await cur.fetchall()
+
+
 async def list_ccs() -> List[aiosqlite.Row]:
     """Devuelve todos los ccs ordenados por bin."""
     async with aiosqlite.connect(DB_PATH) as db:

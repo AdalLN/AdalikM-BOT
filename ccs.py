@@ -13,6 +13,7 @@ from db import (
     insert_cc,
     get_cc_by_bin,
     get_cc_by_name,
+    get_cc_by_type,
     list_ccs,
     update_cc_quantity,
     update_cc_active,
@@ -454,6 +455,44 @@ async def infoccbyname_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
 
     text = "🔎 *RESULTADOS POR BANCO*\n\n\n"
+
+    for row in result:
+        bin_db, name, type_, quantity, active = row
+
+        bin_db = escape_markdown(str(bin_db), version=2)
+        name = escape_markdown(str(name), version=2)
+        type_ = escape_markdown(str(type_), version=2)
+        quantity = escape_markdown(str(quantity), version=2)
+        estado = escape_markdown("🟢 ACTIVO" if active else "🔴 INACTIVO", version=2)
+
+        text += (
+            f"💳 *BIN:* `{bin_db}`\n"
+            f"🏷 *Nombre:* {name}\n"
+            f"📂 *Tipo:* {type_}\n"
+            f"📦 *Cantidad:* {quantity}\n\n"
+            f"📌 *Estado:* {estado}\n\n"
+        )
+
+    await update.message.reply_text(text, parse_mode="MarkdownV2")
+
+
+async def infoccbytype_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Busca información por tipo de tarjeta (credito, debito, credito_vip, debito_vip, credito_diam, debito_diam)"""
+
+    if not context.args:
+        return await update.message.reply_text(
+            "⚠️ *Usa: /type \<tipo\>*", parse_mode="MarkdownV2"
+        )
+
+    type_value = context.args[0]
+    result = await get_cc_by_type(type_value)
+
+    if not result:
+        return await update.message.reply_text(
+            "❌ *Tipo de tarjeta no encontrado*", parse_mode="MarkdownV2"
+        )
+
+    text = "🔎 *RESULTADOS POR TIPO DE TARJETA*\n\n\n"
 
     for row in result:
         bin_db, name, type_, quantity, active = row
