@@ -14,6 +14,13 @@ AUTH_FORWARDERS = {
     if x.strip().isdigit()
 }
 
+SUPERADMINS = {
+    int(x)
+    for x in os.environ.get("SUPERADMINS", "").split(",")
+    if x.strip().isdigit()
+}
+
+
 ALLOWED_UPLOADERS = {
     int(x)
     for x in os.environ.get("ALLOWED_UPLOADERS", "").split(",")

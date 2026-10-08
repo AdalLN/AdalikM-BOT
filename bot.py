@@ -91,6 +91,7 @@ from ccs import (
     cancelcc_cmd,
     infocc_cmd,
     infoccbyname_cmd,
+    infoccbytype_cmd,
     listccs_cmd,
     ccs_text_handler,
 )
@@ -180,6 +181,7 @@ async def start_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "┃ 📊 /list  → ver inventario\n"
         "┃ 🔎 /info \\<bin\\>  → buscar BIN\n"
         "┃ 🔎 /bank \\<banco\\>  → buscar por banco\n"
+        "┃ 🔎 /type \\<tipo\\>  → buscar por tipo de tarjeta\n"
         "╰━━━━━━━━━━━━━━━━━━━━━━╯\n\n"
         "╭━━━〔 *UTILIDAD* 〕━━━╮\n"
         "┃ ⚙️ /help\n"
@@ -210,6 +212,7 @@ async def help_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "┃ • _/list_ → muestra listado general\n"
         "┃ • _/info <bin>_ → busca información por BIN\n"
         "┃ • _/bank <banco>_ → busca información por banco\n"
+        "┃ • _/type <tipo>_ → busca información por tipo de tarjeta\n"
         "╰━━━━━━━━━━━━━━━━━━━━━━╯\n\n"
         "╭━━━〔 *UTILIDAD GENERAL* 〕━━━╮\n"
         "┃ • _/start_ → mensaje de bienvenida\n"
@@ -498,6 +501,7 @@ def main():
     app.add_handler(CommandHandler("list", listccs_cmd))
     app.add_handler(CommandHandler("info", infocc_cmd))
     app.add_handler(CommandHandler("bank", infoccbyname_cmd))
+    app.add_handler(CommandHandler("type", infoccbytype_cmd))
 
     # ---------------------------------------------------------
     # Handler de texto del módulo de inventario
